@@ -1,5 +1,11 @@
 require('babel-register');
 require('babel-polyfill');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const { PRIVATE_KEY, INFURA_PROJECT_ID } = process.env;
+const HDWalletProvider = require("truffle-hdwallet-provider");
 
 module.exports = {
   networks: {
@@ -8,6 +14,14 @@ module.exports = {
       port: 7545,
       network_id: "*" // Match any network id
     },
+    rinkeby: {
+      provider: function () {
+        return new HDWalletProvider(PRIVATE_KEY, `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`);
+      },
+      network_id: 4,
+      gas: 4500000,
+      gasPrice: 10000000000,
+    }
   },
   contracts_directory: './src/contracts/',
   contracts_build_directory: './src/abis/',

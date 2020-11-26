@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-import Identicon from 'identicon.js';
 import './App.css';
 import SocialNetwork from '../abis/SocialNetwork.json'
 import Navbar from './Navbar'
@@ -14,14 +13,17 @@ class App extends Component {
   }
 
   async loadWeb3() {
+    console.log('🚀 ~ file: App.js ~ line 18 ~ App ~ loadWeb3 ~ window.ethereum', window.ethereum)
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum)
       await window.ethereum.enable()
     }
-    else if (window.web3) {
+    // else 
+    if (window.web3) {
       window.web3 = new Web3(window.web3.currentProvider)
     }
     else {
+      window.web3 = new Web3(new Web3.providers.HttpProvider(`http://localhost:8545`));
       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
     }
   }
